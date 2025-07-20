@@ -18,7 +18,7 @@ for line in lines:
         hosts_lines.append(f"0.0.0.0 {domain}")
 
 # 写入 hosts 文件
-with open("output/hosts", "w") as f:
+with open("output/hosts.txt", "w") as f:
     f.write("\n".join(hosts_lines))
 
 print("✅ Hosts 文件已生成")
