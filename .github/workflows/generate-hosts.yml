@@ -5,6 +5,9 @@ on:
     - cron: "0 2 * * *"  # 每天 UTC 时间 02:00 运行
   workflow_dispatch:
 
+permissions:
+  contents: write  # 允许写入仓库文件
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,10 +27,9 @@ jobs:
       - name: Run script
         run: python scripts/generate_hosts.py
 
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add output/hosts
-          git commit -m "🤖 Update hosts file" || echo "No changes to commit"
-          git push
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Update hosts file"
+          branch: main
+          file_pattern: output/hosts
